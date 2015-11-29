@@ -1,0 +1,35 @@
+# Simple KS for CentOS 6
+install
+cdrom
+text
+lang en_US.UTF-8
+keyboard us
+network --onboot yes --device eth0 --bootproto dhcp --noipv6
+
+# Root1
+rootpw  --iscrypted $6$6w2EkCoAmQxdXVN1$MWwsrNw042z3ikU1V9WL7WmInWV9waP1klGcYQFkvSkCbIiVl.C0.E4nUHG/YN96qLbvm.hQTCUhTfVukC5uu/
+
+#
+firewall --disabled
+authconfig --enableshadow --passalgo=sha512
+selinux --disabled
+timezone --utc Asia/Chongqing
+
+bootloader --location=mbr --driveorder=sda --append="crashkernel=auto rhgb quiet"
+# The following is the partition information you requested
+# Note that any partitions you deleted are not expressed
+# here so unless you clear all partitions first, this is
+# not guaranteed to work
+zerombr
+clearpart --all --drives=sda --initlabel
+part /boot --fstype=ext4 --size=500
+part pv.008002 --grow --size=1
+volgroup VolGroup --pesize=4096 pv.008002
+logvol / --fstype=ext4 --name=lv_root --vgname=VolGroup --grow --size=1024 --maxsize=51200
+logvol swap --name=lv_swap --vgname=VolGroup --grow --size=2016 --maxsize=2016
+
+reboot
+
+%packages --nobase
+@core
+
