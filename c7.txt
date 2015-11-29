@@ -40,8 +40,7 @@ part pv.008002 --grow --size=1
 volgroup sys --pesize=4096 pv.008002
 part /boot --fstype=ext4 --size=500
 logvol / --fstype=xfs --name=root --vgname=sys --grow --size=1024 --maxsize=512000
-swap --recommended
-
+logvol swap --name=swap --vgname=sys --grow --size=2048 --maxsize=4096
 
 %packages
 @core
