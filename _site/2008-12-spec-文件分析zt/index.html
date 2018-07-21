@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>SPEC 文件分析(ZT) | Linux in EnterPrise</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="SPEC 文件分析(ZT)" />
+<meta name="author" content="admin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="详细的介绍了 spec文件的书写规则以及关键部分" />
+<meta property="og:description" content="详细的介绍了 spec文件的书写规则以及关键部分" />
+<link rel="canonical" href="http://192.168.1.77:4000/2008-12-spec-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90zt/" />
+<meta property="og:url" content="http://192.168.1.77:4000/2008-12-spec-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90zt/" />
+<meta property="og:site_name" content="Linux in EnterPrise" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2008-12-08T02:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"详细的介绍了 spec文件的书写规则以及关键部分","author":{"@type":"Person","name":"admin"},"@type":"BlogPosting","url":"http://192.168.1.77:4000/2008-12-spec-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90zt/","headline":"SPEC 文件分析(ZT)","dateModified":"2008-12-08T02:00:00-05:00","datePublished":"2008-12-08T02:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://192.168.1.77:4000/2008-12-spec-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90zt/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://192.168.1.77:4000/feed.xml" title="Linux in EnterPrise" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Linux in EnterPrise</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about.html">关于(About Me)</a><a class="page-link" href="/project.html">项目(Project)</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">SPEC 文件分析(ZT)</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2008-12-08T02:00:00-05:00" itemprop="datePublished">Dec 8, 2008
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">admin</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>详细的介绍了 spec文件的书写规则以及关键部分</p>
+
+<p>spec文件规范</p>
+
+<p>RPM软件包是怎样制作的呢？对大多数Linux开发工程师来说是比较陌生的。</p>
+
+<p>其实，制作RPM软件包并不是一件复杂的工作，其中的关键在于编写SPEC软件包描述文件。要想制作一个rpm软件包就必须写一个软件包描述文件（SPEC）。这个文件中包含了软件包的诸多信息，如软件包的名字、版本、类别、说明摘要、创建时要执行什么指令、安装时要执行什么操作、以及软件包所要包含的文件列表等等。</p>
+
+<!--more-->
+
+<p>描述文件说明如下：</p>
+
+<p>（1） 文件头</p>
+
+<p>一般的spec文件头包含以下几个域：</p>
+
+<p>Summary：</p>
+
+<p>用一句话概括该软件包尽量多的信息。</p>
+
+<p>Name：</p>
+
+<p>软件包的名字，最终RPM软件包是用该名字与版本号，释出号及体系号来命名软件包的。</p>
+
+<p>Version：</p>
+
+<p>软件版本号。仅当软件包比以前有较大改变时才增加版本号。</p>
+
+<p>Release：</p>
+
+<p>软件包释出号。一般我们对该软件包做了一些小的补丁的时候就应该把释出号加1。</p>
+
+<p>Vendor：</p>
+
+<p>软件开发者的名字。</p>
+
+<p>Copyright：</p>
+
+<p>软件包所采用的版权规则。具体有：GPL（自由软件），BSD，MIT，Public Domain（公共域），Distributable（贡献），commercial（商业），Share（共享）等，一般的开发都写GPL。</p>
+
+<p>Group：</p>
+
+<p>软件包所属类别，具体类别有：</p>
+
+<p>Amusements/Games （娱乐/游戏）</p>
+
+<p>Amusements/Graphics（娱乐/图形）</p>
+
+<p>Applications/Archiving （应用/文档）</p>
+
+<p>Applications/Communications（应用/通讯）</p>
+
+<p>……….</p>
+
+<p>Source：</p>
+
+<p>源程序软件包的名字。如 stardict-2.0.tar.gz。</p>
+
+<p>（1）%description 段：</p>
+
+<p>软件包详细说明，可写在多个行上。</p>
+
+<p>（2）%prep段</p>
+
+<p>这个段是预处理段，通常用来执行一些解开源程序包的命令，为下一步的编译安装作准备。%prep和下面的%build，%install段一样，除了可以执行RPM所定义的宏命令（以%开头）以外，还可以执行SHELL命令，命令可以有很多行，如我们常写的tar解包命令。</p>
+
+<p>（3）%build段</p>
+
+<p>本段是建立段，所要执行的命令为生成软件包服务，如make 命令。</p>
+
+<p>（4）%install段</p>
+
+<p>本段是安装段，其中的命令在安装软件包时将执行，如make install命令。</p>
+
+<p>（5）%files段</p>
+
+<p>本段是文件段，用于定义软件包所包含的文件，分为三类–说明文档（doc），配置文件（config）及执行程序，还可定义文件存取权限，拥有者及组别。</p>
+
+<p>（6）%changelog段</p>
+
+<p>本段是修改日志段。你可以将软件的每次修改记录到这里，保存到发布的软件包中，以便查询之用。每一个修改日志都有这样一种格式：第一行是：* 星期 月 日 年 修改人电子信箱。其中：星期、月份均用英文形式的前3个字母，用中文会报错。接下来的行写的是修改了什么地方，可写多行。一般以减号开始，便于后续的查阅。</p>
+
+<p>打包</p>
+
+<p>如果想发布rpm格式的源码包或者是二进制包，就要使用rpmbuild工具（rpm最新打包工具）。如果我们已经根据本地源码包的成功编译安装而写了 spec文件（该文件要以.spec结束），</p>
+
+<p>那我们就可以建立一个打包环境，也就是目录树的建立，一般是在/usr/src/redhat/目录下建立5个目录。它门分别是BUILD、SOURCE、SPEC、SRPM、RPM。其中BUILD目录用来存放打包过程中的源文件，SOURCE用来存放打包是要用到的源文件和patch，SPEC用来存放spec文件，SRPM、RPM分别存放打包生成的rpm格式的源文件和二进制文件。当然我们可以根据需要来选用不同的参数打包文件，笔者总结如下3条。</p>
+
+<p>1） 只生成二进制格式的rpm包</p>
+
+<p>rpmbuild -bb xxx.spec</p>
+
+<p>用此命令生成软件包，执行后屏幕将显示如下信息：（每行开头为行号）</p>
+
+<p>1 Executing： %prep</p>
+
+<p>2 + umask 022</p>
+
+<p>3 + cd /usr/src/dist/BUILD</p>
+
+<p>4 + exit 0</p>
+
+<p>5 Executing： %build</p>
+
+<p>6 + umask 022</p>
+
+<p>7 + cd /usr/src/dist/BUILD</p>
+
+<p>生成的文件会在刚才建立的RPM目录下存在。</p>
+
+<p>2）只生成src格式的rpm包</p>
+
+<p>rpmbuild -bs xxx.spec</p>
+
+<p>生成的文件会在刚才建立的SRPM目录下存在。</p>
+
+<p>3） 只需要生成完整的源文件</p>
+
+<p>rpmbuild -bp xxx.spec</p>
+
+<p>源文件存在目录BUILD下。</p>
+
+<p>读者朋友可能对这个命令不太明白，这个命令的作用就是把tar包解开然后把所有的补丁文件合并而生成一个完整的具最新功能的源文件。</p>
+
+<p>4） 完全打包</p>
+
+<p>rpmbuild -ba xxx.spec</p>
+
+<p>产生以上3个过程分别生成的包。存放在相应的目录下。</p>
+
+<p>软件包制作完成后可用rpm命令查询，看看效果。如果不满意的话可以再次修改软件包描述文件，重新运行以上命令产生新的RPM软件包。</p>
+
+<p>典型spec文件分析</p>
+
+<p>通过第一部分的介绍，我们对软件包的管理以及spec文件的一些细节应该掌握的差不多了，接下来通过分析kaffeine.spec（kaffeine是linux平台下的媒体播放器）文件来让读者朋友实践一回spec文件的规范和书写。</p>
+
+<p>Kaffeine.spec文件内容如下：</p>
+
+<p>%define debug_package %{nil}</p>
+
+<p>Name: kaffeine</p>
+
+<p>Version: 0.4.3</p>
+
+<p>Release: 25</p>
+
+<p>Summary: A xine-based Media Player for KDE</p>
+
+<p>Group: Applications/Multimedia</p>
+
+<p>License: GPL</p>
+
+<p>URL: http://kaffeine.sourceforge.net/</p>
+
+<p>Source0: kaffeine-0.4.3.tar.bz2</p>
+
+<p>Source1: logo.png</p>
+
+<p>Source2: icon.tgz</p>
+
+<p>Source3: kaffeine.desktop</p>
+
+<p>Source4: codecs.tgz</p>
+
+<p>Patch: kaffeine-0.4.3-fix-hide-crash.patch</p>
+
+<p>Patch1:kaffeine-0.4.3-without-wizard.patch</p>
+
+<p>BuildRoot: /var/tmp/kaffeine-root</p>
+
+<p>%description</p>
+
+<p>Kaffeine is a xine based media player for KDE3. It plays back CDs,</p>
+
+<p>DVDs, and VCDs. It also decodes multimedia files like AVI, MOV, WMV,</p>
+
+<p>and MP3 from local disk drives, and displays multimedia streamed over</p>
+
+<p>以上这部分就是我们第一部分所说的文件头。这一部分主要包括软件包的名称、版本、源代码和patch等信息，通过这些关键字我们可以一目了然。查看以上内容，我们会全面了解该软件包。</p>
+
+<p>接下来的这一个段就是核心部分，涉及到解包、补丁、编译、安装的过程。</p>
+
+<p>%prep</p>
+
+<p>%setup -q</p>
+
+<p>%patch -p1</p>
+
+<p>%patch1 -p1</p>
+
+<p>%Build</p>
+
+<p>make -f admin/Makefile.common cvs</p>
+
+<p>./configure –prefix=/usr</p>
+
+<p>make</p>
+
+<p>#for mo files</p>
+
+<p>pushd po</p>
+
+<p>rm *.gmo</p>
+
+<p>make</p>
+
+<p>popd</p>
+
+<p>%install</p>
+
+<p>mkdir -p $RPM_BUILD_ROOT</p>
+
+<p>make install DESTDIR=$RPM_BUILD_ROOT</p>
+
+<p>mkdir -p $RPM_BUILD_ROOT/usr/share/services</p>
+
+<p>cp $RPM_BUILD_ROOT/usr/share/apps/kaffeine/mms.protocol $RPM_BUILD_ROOT/usr/share/services</p>
+
+<p>cp $RPM_BUILD_ROOT/usr/share/apps/kaffeine/rtsp.protocol $RPM_BUILD_ROOT/usr/share/services</p>
+
+<p>#mkdir -p $RPM_BUILD_ROOT/usr/lib/firefox/plugins</p>
+
+<p>#cp $RPM_BUILD_ROOT/usr/lib/kaffeineplugin/kaffeineplugin.so</p>
+
+<p>$RPM_BUILD_ROOT/usr/lib/firefox/plugins</p>
+
+<p>cp %{SOURCE1} $RPM_BUILD_ROOT/usr/share/apps/kaffeine</p>
+
+<p>rm -rf $RPM_BUILD_ROOT/usr/share/icons/hicolor/*/apps/kaffeine.png</p>
+
+<p>rm -rf $RPM_BUILD_ROOT/usr/share/icons/hicolor/*/apps/kaffeine-pause.png</p>
+
+<p>rm -rf $RPM_BUILD_ROOT/usr/share/icons/hicolor/*/apps/kaffeine-play.png</p>
+
+<p>rm -rf $RPM_BUILD_ROOT/usr/share/icons/hicolor/*/apps/kaffeine-record.png</p>
+
+<p>mkdir -p $RPM_BUILD_ROOT/usr/share/icons/crystalsvg</p>
+
+<p>tar zxvf %{SOURCE2} -C $RPM_BUILD_ROOT/usr/share/icons/crystalsvg</p>
+
+<p>mkdir -p $RPM_BUILD_ROOT/usr/share/applnk/App/Multimedia</p>
+
+<p>cp -r %{SOURCE3} $RPM_BUILD_ROOT/usr/share/applnk/App/Multimedia</p>
+
+<p>mkdir -p $RPM_BUILD_ROOT/usr/lib/win32</p>
+
+<p>tar zxvf %{SOURCE4} -C $RPM_BUILD_ROOT/usr/lib/win32</p>
+
+<p>%clean</p>
+
+<p>rm -rf $RPM_BUILD_ROOT</p>
+
+<p>%post</p>
+
+<p>ln -s /dev/cdrom /dev/dvd</p>
+
+<p>ln -s /dev/cdrom /dev/rdvd</p>
+
+<p>%files</p>
+
+<p>%defattr(-,root,root)</p>
+
+<p>/usr</p>
+
+<p>这部分内容与所要打的包有关系，我们要根据具体情况来写出编译过程。这部分内容是最复杂的内容，当然，我们也可以看出，这样的写法其实就是在写一种规范化的脚本，说到脚本，读者朋友门就应该领会到这部分内容的灵活性了。</p>
+
+<p>%changelog</p>
+
+<ul>
+  <li>Fri Jul 1 2005 AiLin Yang -0.4.3-25</li>
+</ul>
+
+<p>– modified the fullscreen bottom control panel</p>
+
+<p>…..</p>
+
+<p>这部分内容可以说是spec文件的最后内容了，它对团队软件开发以及后续的软件维护至关重要，它相当于一个日志，记录了所有的基于该软件包的修改、更新信息。</p>
+
+<p>小结</p>
+
+<p>要想制作一个RPM格式的软件包必须编写软件包描述文件。其标准命名格式为:软件名-版本号-释出号.spec，这个文件详细描述了有关该软件包的诸多信息,如软件名,版本,类别,说明摘要,创建时要执行什么指令,安装时要执行什么操作,以及软件包所要包含的文件等等。有了这个文件RPM就可以制作出相应的rpm软件包。</p>
+
+<p>原文作者：</p>
+
+<p>杨爱林，Linux 研发工程师， 通过 alyang@redflag-linux.com 可以跟他联系。</p>
+
+  </div><a class="u-url" href="/2008-12-spec-%E6%96%87%E4%BB%B6%E5%88%86%E6%9E%90zt/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Linux in EnterPrise</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Linux in EnterPrise</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/linuxdict"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">linuxdict</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Focus in Linux, LAMP, Mail, Cluster Arch(ENterprise Linux Apache MySQL Php)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

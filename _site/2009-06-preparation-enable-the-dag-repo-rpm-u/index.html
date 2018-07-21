@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Preparation Enable the Dag repo | Linux in EnterPrise</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Preparation Enable the Dag repo" />
+<meta name="author" content="edyliu" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Preparation" />
+<meta property="og:description" content="Preparation" />
+<link rel="canonical" href="http://192.168.1.77:4000/2009-06-preparation-enable-the-dag-repo-rpm-u/" />
+<meta property="og:url" content="http://192.168.1.77:4000/2009-06-preparation-enable-the-dag-repo-rpm-u/" />
+<meta property="og:site_name" content="Linux in EnterPrise" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2009-06-02T21:08:30-04:00" />
+<script type="application/ld+json">
+{"description":"Preparation","author":{"@type":"Person","name":"edyliu"},"@type":"BlogPosting","url":"http://192.168.1.77:4000/2009-06-preparation-enable-the-dag-repo-rpm-u/","headline":"Preparation Enable the Dag repo","dateModified":"2009-06-02T21:08:30-04:00","datePublished":"2009-06-02T21:08:30-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://192.168.1.77:4000/2009-06-preparation-enable-the-dag-repo-rpm-u/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://192.168.1.77:4000/feed.xml" title="Linux in EnterPrise" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Linux in EnterPrise</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about.html">关于(About Me)</a><a class="page-link" href="/project.html">项目(Project)</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Preparation  Enable the Dag repo</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2009-06-02T21:08:30-04:00" itemprop="datePublished">Jun 2, 2009
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">edyliu</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Preparation</p>
+
+<p>Enable the Dag repo</p>
+
+<p>rpm -Uhv \</p>
+
+<p>http://apt.sw.be/redhat/el5/en/x86_64/rpmforge/RPMS//rpmforge-release-0.3.6-1.el5.rf.x86_64.rpm</p>
+
+<p>Enable the Epel repo</p>
+
+<p>rpm -ivh http://download.fedora.redhat.com//pub/epel/5/`uname -i`/epel-release-`cut -d” ” /etc/redhat-release -f 3 |awk -F”.” ‘{print $1}’`-`cut -d” ” /etc/redhat-release -f 3 |awk -F”.” ‘{print $2}’`.noarch.rpm</p>
+
+<p>Install the gcc and other tools</p>
+
+<p>yum install -y make gcc gcc-c++ ncurses-devel.x86_64 automake autoconf boost-devel.x86_64 libedit-devel.x86_64 fuse-devel.x86_64 rpm-build.x86_64</p>
+
+<p>Get the kernel source from kernel.org</p>
+
+<p>http://www.kernel.org/pub/linux/kernel/v2.6/linux-2.6.29.1.tar.bz2</p>
+
+<p>Get the Ceph-0.8 sources package</p>
+
+<p>from: http://ceph.newdream.net/download/</p>
+
+<p>http://ceph.newdream.net/download/ceph-0.8.tar.gz</p>
+
+<p>Proceed</p>
+
+<!--more-->
+
+<p>mkdir build_cluster</p>
+
+<p>cd build_cluster</p>
+
+<p>tar xf linux-2.6.29.1.tar.bz2</p>
+
+<p>tar xf ceph-0.8.tar.gz</p>
+
+<p>cp -r ceph-0.8/src/kernel linux-2.6.29.1/fs/ceph</p>
+
+<p>Edit the linux-2.6.29.1/fs/Kconfig file about line 269</p>
+
+<p>—-here —- add the following line ——</p>
+
+<p>source “fs/ceph/Kconfig”</p>
+
+<p>—————————————————</p>
+
+<p>it should looks like</p>
+
+<p>(ignore….)</p>
+
+<p>source “net/sunrpc/Kconfig”</p>
+
+<p>source “fs/smbfs/Kconfig”</p>
+
+<p>source “fs/ceph/Kconfig” #add for ceph</p>
+
+<p>source “fs/cifs/Kconfig”</p>
+
+<p>source “fs/ncpfs/Kconfig”</p>
+
+<p>source “fs/coda/Kconfig”</p>
+
+<p>(ignore…..)</p>
+
+<p>Edit the linux-2.6.29.1/fs/Makefile file and the following line to the end of it.</p>
+
+<p>—-here —- add the following line ——</p>
+
+<p>obj-$(CONFIG_CEPH_FS) &amp;nbsp ; += ceph/</p>
+
+<p>—————————————————</p>
+
+<p>make menuconfig</p>
+
+<p>we should find the ceph modules in File Systems-&gt; Network File Systems-&gt; Ceph distributed file system (EXPERIMENTAL)</p>
+
+<p>https://clearspace:8443/clearspace/servlet/JiveServlet/download/1217-1-1138/Picture%2036.png</p>
+
+<p>we are compile a kernel for server, so there are some uneed modules, like sound, wireless, and others</p>
+
+<p>the config we used here is the attachment</p>
+
+<p>make rpm</p>
+
+<p>we will get the new kernel</p>
+
+<p>/usr/src/redhat/RPMS/x86_64/kernel-2.6.29.1vceph-3.x86_64.rpm</p>
+
+<p>/usr/src/redhat/SRPMS/kernel-2.6.29.1vceph-3.src.rpm</p>
+
+<p>rpm -ivh /usr/src/redhat/RPMS/x86_64/kernel-2.6.29.1vceph-3.x86_64.rpm</p>
+
+<p>Next we need to generate the initrd for modules.</p>
+
+<p>mkinitrd –without-dmraid /boot/initrd-2.6.29.1vceph 2.6.29.1vceph</p>
+
+<p>edit the /etc/grub.conf add the following lines</p>
+
+<p>—-here —- add the following line ——</p>
+
+<p>title 2.6.29.1-Vcluster</p>
+
+<p>root (hd0,0)</p>
+
+<p>kernel /vmlinuz-2.6.29.1vceph ro root=/dev/VolGroup00/LogVol00</p>
+
+<p>initrd /initrd-2.6.29.1vceph</p>
+
+<p>—————————————————</p>
+
+<p>my /etc/grub.conf looks like</p>
+
+<p>—-here —- Start ——-</p>
+
+<p>default=1</p>
+
+<p>timeout=5</p>
+
+<p>splashimage=(hd0,0)/grub/splash.xpm.gz</p>
+
+<p>hiddenmenu</p>
+
+<p>title CentOS (2.6.25)</p>
+
+<p>root (hd0,0)</p>
+
+<p>kernel /vmlinuz-2.6.25 ro root=/dev/VolGroup00/LogVol00</p>
+
+<p>initrd /initrd-2.6.25.img</p>
+
+<p>title 2.6.29.1-Vcluster</p>
+
+<p>root (hd0,0)</p>
+
+<p>kernel /vmlinuz-2.6.29.1vceph ro root=/dev/VolGroup00/LogVol00</p>
+
+<p>initrd /initrd-2.6.29.1vceph</p>
+
+<p>—-here —- End ——–</p>
+
+<p>reboot</p>
+
+<p>uname -a</p>
+
+<p>Linux cluster01 2.6.29.1vceph #3 SMP Tue Jun 2 17:59:22 CST 2009 x86_64 x86_64 x86_64 GNU/Linux</p>
+
+<p>[root@cluster01 cluster]# modprobe ceph</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>[root@cluster01 cluster]# lsmod</td>
+      <td>grep ceph</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>ceph &amp;nbs p; 327920 0</p>
+
+  </div><a class="u-url" href="/2009-06-preparation-enable-the-dag-repo-rpm-u/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Linux in EnterPrise</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Linux in EnterPrise</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/linuxdict"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">linuxdict</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Focus in Linux, LAMP, Mail, Cluster Arch(ENterprise Linux Apache MySQL Php)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

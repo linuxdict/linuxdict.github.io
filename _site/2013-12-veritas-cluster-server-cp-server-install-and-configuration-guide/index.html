@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Veritas Cluster Server CP server install and configuration guide | Linux in EnterPrise</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Veritas Cluster Server CP server install and configuration guide" />
+<meta name="author" content="edyliu" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When you read this article, i assume you already know the split-brain issue in Cluster. VCS have CP server to avoid the split-brain issue. also you can use SCSI3-PR func if your SAN storage support that." />
+<meta property="og:description" content="When you read this article, i assume you already know the split-brain issue in Cluster. VCS have CP server to avoid the split-brain issue. also you can use SCSI3-PR func if your SAN storage support that." />
+<link rel="canonical" href="http://192.168.1.77:4000/2013-12-veritas-cluster-server-cp-server-install-and-configuration-guide/" />
+<meta property="og:url" content="http://192.168.1.77:4000/2013-12-veritas-cluster-server-cp-server-install-and-configuration-guide/" />
+<meta property="og:site_name" content="Linux in EnterPrise" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-12-03T17:25:44-05:00" />
+<script type="application/ld+json">
+{"description":"When you read this article, i assume you already know the split-brain issue in Cluster. VCS have CP server to avoid the split-brain issue. also you can use SCSI3-PR func if your SAN storage support that.","author":{"@type":"Person","name":"edyliu"},"@type":"BlogPosting","url":"http://192.168.1.77:4000/2013-12-veritas-cluster-server-cp-server-install-and-configuration-guide/","headline":"Veritas Cluster Server CP server install and configuration guide","dateModified":"2013-12-03T17:25:44-05:00","datePublished":"2013-12-03T17:25:44-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://192.168.1.77:4000/2013-12-veritas-cluster-server-cp-server-install-and-configuration-guide/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://192.168.1.77:4000/feed.xml" title="Linux in EnterPrise" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Linux in EnterPrise</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about.html">关于(About Me)</a><a class="page-link" href="/project.html">项目(Project)</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Veritas Cluster Server CP server install and configuration guide</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2013-12-03T17:25:44-05:00" itemprop="datePublished">Dec 3, 2013
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">edyliu</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>When you read this article, i assume you already know the split-brain issue in Cluster. VCS have CP server to avoid the split-brain issue. also you can use SCSI3-PR func if your SAN storage support that.</p>
+
+<p>We mainly focus on CP server setup and Configure the cluster to use CP servers.</p>
+
+<p>=== Part 1, Setup CPS server ===</p>
+
+<p>CP server setup. you can install SFHA all package. which include the CPS server</p>
+
+<p>VRTScps All Cluster Server – Coordination Point Server</p>
+
+<p># Quick Steps:</p>
+
+<p>/opt/VRTS/install/installvcs61 -configcps</p>
+
+<p># Manual Steps without VCS, because CPS can run alone.</p>
+
+<p># Once you installed, create CPS configuration.</p>
+
+<p><code class="highlighter-rouge">&lt;br /&gt;
+root@salt/etc/VRTScps/db/current:$ cat /etc/vxcps.conf&lt;br /&gt;
+cps_name=salt&lt;br /&gt;
+vip=[10.x.x.x] # update x.x.x to your VIP&lt;br /&gt;
+port=14250&lt;br /&gt;
+security=0&lt;br /&gt;
+db=/etc/VRTScps/db&lt;br /&gt;
+</code></p>
+
+<!--more-->
+
+<p># then start CPS</p>
+
+<p><code class="highlighter-rouge">&lt;br /&gt;
+/opt/VRTScps/bin/vxcpserv&lt;br /&gt;
+</code></p>
+
+<p># check CPS</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>netstat -anpt</td>
+      <td>grep 14250</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>tcp 0 0 127.0.0.1:14250 0.0.0.0:* LISTEN 26041/vxcpserv</p>
+
+<p>tcp 0 0 10.x.x.x:14250 0.0.0.0:* LISTEN 26041/vxcpserv</p>
+
+<p>=== Part 2, Setup Password less from Cluster node to CPS server ===</p>
+
+<p>When client want to talk/reg the CPS server. they need ssh passwordless from client to CPS server. so this need to be setup before Part 3.</p>
+
+<p>=== Part 3, Configure Cluster node to use CPS server ===</p>
+
+<p>root@beihdp01a ~]# /opt/VRTS/install/installvcs -fencing</p>
+
+<p>Veritas Cluster Server 5.1 SP1 Install Program</p>
+
+<p>Copyright (c) 2010 Symantec Corporation. All rights reserved. Symantec, the Symantec Logo are trademarks or registered trademarks of Symantec Corporation or its affiliates</p>
+
+<p>in the U.S. and other countries. Other names may be trademarks of their respective owners.</p>
+
+<p>The Licensed Software and Documentation are deemed to be “commercial computer software” and “commercial computer software documentation” as defined in FAR Sections 12.212</p>
+
+<p>and DFARS Section 227.7202.</p>
+
+<p>Logs are being written to /var/tmp/installvcs-201312040324pwh while installvcs is in progress.</p>
+
+<p>Checking communication on beihdp01a ……………………………………………………………………………………………………………….. Done</p>
+
+<p>Checking release compatibility on beihdp01a ………………………………………………………………………………………………………… Done</p>
+
+<p>Checking VCS installation on beihdp01a ………………………………………………………………………………………………………. 5.1.132.000</p>
+
+<p>Veritas Cluster Server 5.1 SP1 Configure Program</p>
+
+<p>Cluster information verification:</p>
+
+<p>Cluster Name: beihdp</p>
+
+<p>Cluster ID Number: 10</p>
+
+<p>Systems: beihdp01a beihdp01b beihdp01c</p>
+
+<p>Would you like to configure I/O fencing on the cluster? [y,n,q] y</p>
+
+<p>Checking communication on beihdp01a ……………………………………………………………………………………………………………….. Done</p>
+
+<p>Checking release compatibility on beihdp01a ………………………………………………………………………………………………………… Done</p>
+
+<p>Checking VCS installation on beihdp01a ………………………………………………………………………………………………………. 5.1.132.000</p>
+
+<p>Checking communication on beihdp01b ……………………………………………………………………………………………………………….. Done</p>
+
+<p>Checking release compatibility on beihdp01b ………………………………………………………………………………………………………… Done</p>
+
+<p>Checking VCS installation on beihdp01b ………………………………………………………………………………………………………. 5.1.132.000</p>
+
+<p>Checking communication on beihdp01c ……………………………………………………………………………………………………………….. Done</p>
+
+<p>Checking release compatibility on beihdp01c ………………………………………………………………………………………………………… Done</p>
+
+<p>Checking VCS installation on beihdp01c ………………………………………………………………………………………………………. 5.1.132.000</p>
+
+<p>Veritas Cluster Server 5.1 SP1 Configure Program</p>
+
+<p>Fencing configuration</p>
+
+<p>1) Configure CP client based fencing</p>
+
+<p>2) Configure disk based fencing</p>
+
+<p>3) Configure fencing in disabled mode</p>
+
+<p>Select the fencing mechanism to be configured in this Application Cluster: [1-3,q] 1</p>
+
+<p>Does your storage environment support SCSI3 PR? [y,n,q] (y) n</p>
+
+<p>In virtualized environments that do not support SCSI-3 PR, VCS attempts to minimize the chances of data corruption with discreet use of timings in the event of unreachable</p>
+
+<p>nodes or network partition. However, if a server becomes unresponsive, VCS assumes that the node has left the cluster and reconfigures itself.</p>
+
+<p>This feature only works with UseFence Cluster attribute set to SCSI3 and all coordination points being CP servers</p>
+
+<p>In this environment, either Non-SCSI3 fencing can be configured or fencing can be configured in disabled mode</p>
+
+<p>Do you want to configure Non-SCSI3 fencing? [y,n,q] (y)</p>
+
+<p>Enter the total number of co-ordination points. All co-ordination points should be CP servers: [b] (3) 1</p>
+
+<p>Warning: Symantec recommends at least three or more odd number of coordination points to avoid a single point of failure. However, if fencing is configured to use a single</p>
+
+<p>CP server, it is strongly recommended to make the CP server highly available by configuring it on a SFHA cluster. It is important to note that during a failover of the CP</p>
+
+<p>server in the SFHA cluster, if there is a network partition on the client cluster at the same time, the whole client cluster will be brought down because arbitration</p>
+
+<p>facility will not be available for the duration of the failover.</p>
+
+<p>Press [Enter] to continue:</p>
+
+<p>Veritas Cluster Server 5.1 SP1 Configure Program</p>
+
+<p>You are now going to be asked for the Virtual IP addresses/hostnames of the CP Servers. Note that the installer assumes these values to be the identical as viewed from all</p>
+
+<p>the client cluster nodes.</p>
+
+<p>Press [Enter] to continue:</p>
+
+<p>Enter the Virtual IP address/fully qualified host name for the Co-ordination Point Server #1: [b] 10.x.x.x</p>
+
+<p>Enter the port in the range [49152, 65535] which the Co-ordination Point Server 10.240.3.41 would be listening on or simply accept the default port suggested: [b] (14250)</p>
+
+<p>Veritas Cluster Server 5.1 SP1 Configure Program</p>
+
+<p>CPS based fencing configuration: Coordination points verification</p>
+
+<p>Total number of coordination points being used: 1</p>
+
+<p>CP Server (Port):</p>
+
+<ol>
+  <li>10.240.3.41 (14250)</li>
+</ol>
+
+<p>Is this information correct? [y,n,q] (y)</p>
+
+<p>Veritas Cluster Server 5.1 SP1 Configure Program</p>
+
+<p>While it is recommended to have secure communication configured between CP Servers and CP client cluster, the client cluster must be in the same mode (secure or non-secure)</p>
+
+<p>as the CP servers are.</p>
+
+<p>Since the CP servers are configured in non-secure mode, the installer will not try to configure the client cluster as a secure cluster.</p>
+
+<p>Press [Enter] to continue:</p>
+
+<p>Veritas Cluster Server 5.1 SP1 Configure Program</p>
+
+<p>CPS based fencing configuration: Client cluster verification</p>
+
+<p>CPS Admin utility : /opt/VRTScps/bin/cpsadm</p>
+
+<p>Cluster ID: 10</p>
+
+<p>Cluster Name: beihdp</p>
+
+<p>UUID for the above cluster: {58f57018-1dd2-11b2-bf24-8d7f951ee738}</p>
+
+<p>Is this information correct? [y,n,q] (y)</p>
+
+<p>Veritas Cluster Server 5.1 SP1 Configure Program</p>
+
+<p>Updating client cluster information on CP Server 10.x.x.x</p>
+
+<p>Adding the client cluster to the CP Server 10.x.x.x ………………………………………………………………………………………………. Done</p>
+
+<p>Registering client node beihdp01a with CP Server 10.x.x.x …………………………………………………………………………………………. Done</p>
+
+<p>Adding CPClient user for communicating to CP Server 10.x.x.x ………………………………………………………………………………………. Done</p>
+
+<p>Adding cluster beihdp to the CPClient user on CP Server 10.x.x.x …………………………………………………………………………………… Done</p>
+
+<p>Registering client node beihdp01b with CP Server 10.x.x.x …………………………………………………………………………………………. Done</p>
+
+<p>Adding CPClient user for communicating to CP Server 10.x.x.x ………………………………………………………………………………………. Done</p>
+
+<p>Adding cluster beihdp to the CPClient user on CP Server 10.x.x.x …………………………………………………………………………………… Done</p>
+
+<p>Registering client node beihdp01c with CP Server 10.x.x.x …………………………………………………………………………………………. Done</p>
+
+<p>Adding CPClient user for communicating to CP Server 10.x.x.x ………………………………………………………………………………………. Done</p>
+
+<p>Adding cluster beihdp to the CPClient user on CP Server 10.x.x.x …………………………………………………………………………………… Done</p>
+
+<p>Do you want to configure CP Agent on the client cluster? [y,n,q] (y)</p>
+
+<p>There is already at least one group with a resource of type ‘CoordPoint’ as displayed below. Manually check if it has all the attributes set correctly.</p>
+
+<p>#Resource Attribute System Value</p>
+
+<p>coordpoint Group global vxfen</p>
+
+<p>Press [Enter] to continue:</p>
+
+<p>Stopping VCS on beihdp01a ………………………………………………………………………………………………………………………… Done</p>
+
+<p>Stopping VCS on beihdp01b ………………………………………………………………………………………………………………………… Done</p>
+
+<p>Stopping VCS on beihdp01c ………………………………………………………………………………………………………………………… Done</p>
+
+<p>Updating /etc/vxfenmode file on beihdp01a ………………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/vxenviron file on beihdp01a ………………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/sysconfig/vxfen file on beihdp01a …………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/llttab file on beihdp01a …………………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/vxfenmode file on beihdp01b ………………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/vxenviron file on beihdp01b ………………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/sysconfig/vxfen file on beihdp01b …………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/llttab file on beihdp01b …………………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/vxfenmode file on beihdp01c ………………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/vxenviron file on beihdp01c ………………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/sysconfig/vxfen file on beihdp01c …………………………………………………………………………………………………….. Done</p>
+
+<p>Updating /etc/llttab file on beihdp01c …………………………………………………………………………………………………………….. Done</p>
+
+<p>Starting Fencing on beihdp01a …………………………………………………………………………………………………………………….. Done</p>
+
+<p>Starting Fencing on beihdp01b …………………………………………………………………………………………………………………….. Done</p>
+
+<p>Starting Fencing on beihdp01c …………………………………………………………………………………………………………………….. Done</p>
+
+<p>Updating main.cf with fencing …………………………………………………………………………………………………………………….. Done</p>
+
+<p>Starting VCS on beihdp01a ………………………………………………………………………………………………………………………… Done</p>
+
+<p>Starting VCS on beihdp01b ………………………………………………………………………………………………………………………… Done</p>
+
+<p>Starting VCS on beihdp01c ………………………………………………………………………………………………………………………… Done</p>
+
+<p>I/O Fencing configuration ………………………………………………………………………………………………………………………… Done</p>
+
+<p>I/O Fencing configuration completed successfully</p>
+
+<p>installvcs log files, summary file, and response file are saved at:</p>
+
+<p>/opt/VRTS/install/logs/installvcs-201312040324pwh</p>
+
+<p>[root@beihdp01a ~]# hastatus -sum</p>
+
+<p>— SYSTEM STATE</p>
+
+<p>— System State Frozen</p>
+
+<p>A beihdp01a RUNNING 0</p>
+
+<p>A beihdp01b RUNNING 0</p>
+
+<p>A beihdp01c RUNNING 0</p>
+
+<p>— GROUP STATE</p>
+
+<p>— Group System Probed AutoDisabled State</p>
+
+<p>B sg_BJHDP01 beihdp01a Y N OFFLINE</p>
+
+<p>B sg_BJHDP01 beihdp01b Y N OFFLINE</p>
+
+<p>B sg_BJHDP01 beihdp01c Y N OFFLINE</p>
+
+<p>B sg_BJTST01 beihdp01a Y N OFFLINE</p>
+
+<p>B sg_BJTST01 beihdp01b Y N OFFLINE</p>
+
+<p>B sg_BJTST01 beihdp01c Y N OFFLINE</p>
+
+<p>B vxfen beihdp01a Y N OFFLINE</p>
+
+<p>B vxfen beihdp01b Y N OFFLINE</p>
+
+<p>B vxfen beihdp01c Y N OFFLINE</p>
+
+<p>[root@beihdp01b ~]# cpsadm -s salt -a list_nodes</p>
+
+<p>ClusterName UUID Hostname(Node ID) Registered</p>
+
+<p>=========== =================================== ================ ===========</p>
+
+<p>beihdp {58f57018-1dd2-11b2-bf24-8d7f951ee738} beihdp01a(0) 0</p>
+
+<p>beihdp {58f57018-1dd2-11b2-bf24-8d7f951ee738} beihdp01b(1) 0</p>
+
+<p>beihdp {58f57018-1dd2-11b2-bf24-8d7f951ee738} beihdp01c(2) 0</p>
+
+<p>[root@beihdp01b ~]# tail -f /var/VRTSvcs/log/vxfen/vxfen.log</p>
+
+<p>Wed Dec 4 03:06:49 GMT 2013 starting /sbin/vxfen-shutdown</p>
+
+<p>Wed Dec 4 03:06:49 GMT 2013 starting retry loop</p>
+
+<p>Wed Dec 4 03:06:49 GMT 2013 count is 0</p>
+
+<p>Wed Dec 4 03:06:51 GMT 2013 vxfenconfig -U returned 0</p>
+
+<p>Wed Dec 4 03:06:51 GMT 2013 exiting normally</p>
+
+<p>Wed Dec 4 03:06:51 GMT 2013 /sbin/vxfen-shutdown returned with 0</p>
+
+<p>Wed Dec 4 03:06:51 GMT 2013 stopping vxfen.. Done</p>
+
+<p>Wed Dec 4 03:06:56 GMT 2013 calling mod_unload.</p>
+
+<p>Wed Dec 4 03:25:57 GMT 2013 Invoked vxfen. Starting</p>
+
+<p>Wed Dec 4 03:25:57 GMT 2013 starting vxfen..</p>
+
+<p>Wed Dec 4 03:26:50 GMT 2013 calling start_fun.</p>
+
+<p>Wed Dec 4 03:26:50 GMT 2013 found vxfenmode file</p>
+
+<p>Wed Dec 4 03:26:50 GMT 2013 calling /sbin/vxfen-startup in bg</p>
+
+<p>Wed Dec 4 03:26:50 GMT 2013 starting vxfen.. Done</p>
+
+<p>Wed Dec 4 03:26:51 GMT 2013 starting in vxfen-startup</p>
+
+<p>Wed Dec 4 03:26:51 GMT 2013 case -m :: fencing mechanism cps</p>
+
+<p>Wed Dec 4 03:26:51 GMT 2013 executing local_info.sh: begin</p>
+
+<p>Wed Dec 4 03:26:53 GMT 2013 output was security=0</p>
+
+<p>single_cp=1</p>
+
+<p>Wed Dec 4 03:26:53 GMT 2013 executing local_info.sh: end</p>
+
+<p>Wed Dec 4 03:26:53 GMT 2013 calling regular vxfenconfig</p>
+
+<p>Wed Dec 4 03:27:17 GMT 2013 return value from above operation is 0</p>
+
+<p>Wed Dec 4 03:27:17 GMT 2013 output was Log Buffer: 0xffffffff88e082c0</p>
+
+<p>VXFEN vxfenconfig NOTICE Driver will use customized fencing – mechanism cps</p>
+
+<p>Wed Dec 4 03:27:17 GMT 2013 done with script.</p>
+
+<p># Issue 1.</p>
+
+<p>Wed Dec 4 02:24:57 GMT 2013 output was VXFEN vxfenconfig ERROR V-11-2-1043 Detected a preexisting split brain. Unable to join cluster.</p>
+
+<p>Log Buffer: 0xffffffff88d292c0</p>
+
+<p># clean the sqlite db (/etc/VRTScps/db/current/cps_db) from CPS server or you can clean up the record for your new Cluster. then let the installvcs -fencing script moving forward.</p>
+
+<p># show cluster info from CP server</p>
+
+<p>$cd /etc/VRTScps/db/current</p>
+
+<p>$sqlite cps_db</p>
+
+<p>sqlite&gt; .tables</p>
+
+<p>clusters nodes nodesspv user_cluster users</p>
+
+<p>sqlite&gt; select * from nodes;</p>
+
+<p>0,{58f57018-1dd2-11b2-bf24-8d7f951ee738},1,beihdp01a</p>
+
+<p>1,{58f57018-1dd2-11b2-bf24-8d7f951ee738},0,beihdp01b</p>
+
+<p>2,{58f57018-1dd2-11b2-bf24-8d7f951ee738},1,beihdp01c</p>
+
+<p>sqlite&gt; select * from clusters;</p>
+
+<p>{58f57018-1dd2-11b2-bf24-8d7f951ee738},beihdp</p>
+
+<p># Issue 2, Even the coordpoint online. the SG still doesn’t get online</p>
+
+<p>Solution:</p>
+
+<p>Add Phantom to vxfen SG.</p>
+
+<p>vxfen beihdp01a ONLINE</p>
+
+<p>————————————————————————-</p>
+
+<p>vxfen beihdp01c ONLINE</p>
+
+<p>coordpoint beihdp01a ONLINE</p>
+
+<p>coordpoint beihdp01c ONLINE</p>
+
+<p>phantom beihdp01a ONLINE</p>
+
+<p>phantom beihdp01c ONLINE</p>
+
+<p># Refer</p>
+
+<p>http://www.symantec.com/business/support/index?page=content&amp;id=HOWTO41888</p>
+
+  </div><a class="u-url" href="/2013-12-veritas-cluster-server-cp-server-install-and-configuration-guide/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Linux in EnterPrise</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Linux in EnterPrise</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/linuxdict"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">linuxdict</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Focus in Linux, LAMP, Mail, Cluster Arch(ENterprise Linux Apache MySQL Php)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

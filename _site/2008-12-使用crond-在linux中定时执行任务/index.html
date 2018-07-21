@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>使用crond 在linux中定时执行任务 | Linux in EnterPrise</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="使用crond 在linux中定时执行任务" />
+<meta name="author" content="lele" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="使用crond 在linux中定时执行任务" />
+<meta property="og:description" content="使用crond 在linux中定时执行任务" />
+<link rel="canonical" href="http://192.168.1.77:4000/2008-12-%E4%BD%BF%E7%94%A8crond-%E5%9C%A8linux%E4%B8%AD%E5%AE%9A%E6%97%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E5%8A%A1/" />
+<meta property="og:url" content="http://192.168.1.77:4000/2008-12-%E4%BD%BF%E7%94%A8crond-%E5%9C%A8linux%E4%B8%AD%E5%AE%9A%E6%97%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E5%8A%A1/" />
+<meta property="og:site_name" content="Linux in EnterPrise" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2008-12-05T04:33:28-05:00" />
+<script type="application/ld+json">
+{"description":"使用crond 在linux中定时执行任务","author":{"@type":"Person","name":"lele"},"@type":"BlogPosting","url":"http://192.168.1.77:4000/2008-12-%E4%BD%BF%E7%94%A8crond-%E5%9C%A8linux%E4%B8%AD%E5%AE%9A%E6%97%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E5%8A%A1/","headline":"使用crond 在linux中定时执行任务","dateModified":"2008-12-05T04:33:28-05:00","datePublished":"2008-12-05T04:33:28-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://192.168.1.77:4000/2008-12-%E4%BD%BF%E7%94%A8crond-%E5%9C%A8linux%E4%B8%AD%E5%AE%9A%E6%97%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E5%8A%A1/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://192.168.1.77:4000/feed.xml" title="Linux in EnterPrise" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Linux in EnterPrise</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about.html">关于(About Me)</a><a class="page-link" href="/project.html">项目(Project)</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">使用crond 在linux中定时执行任务</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2008-12-05T04:33:28-05:00" itemprop="datePublished">Dec 5, 2008
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">lele</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>定期运行程序或者脚本是管理员要面临一个很普遍的问题</p>
+
+<p>一、 使用crond监控程序运行程序</p>
+
+<ol>
+  <li>使用cron来定期执行任务</li>
+</ol>
+
+<p>使用crond (cron监控程序)来定期运行一些任务，比如备份日志、数据库、把日志发送到自己邮箱等等操作都可以又定期运行程序来完成。<!--more--></p>
+
+<p>crond是个脚本，每次Linux启动的时候都自动起到该脚本，该脚本是 /etc/rc.d/init.d 下面的，每次系统启动的时候就自动会启动该目录下的脚本。</p>
+
+<p>cron有两个配置文件，一个/etc/crontab，是一个全局配置文件，一组是crontab命令生成生成的配置文件，是属于用户级的。</p>
+
+<p>一般对管理员来说，只要使用全局配置的/etc/crontab就配置文件就可以了，我们去打开配置文件看看：</p>
+
+<p>SHELL=/bin/bash</p>
+
+<p>PATH=/sbin:/bin:/usr/sbin:/usr/bin</p>
+
+<p>MAILTO=root</p>
+
+<p>HOME=/</p>
+
+<p># run-parts</p>
+
+<p>01 * * * * root run-parts /etc/cron.hourly</p>
+
+<p>02 4 * * * root run-parts /etc/cron.daily</p>
+
+<p>22 4 * * 0 root run-parts /etc/cron.weekly</p>
+
+<p>42 4 1 * * root run-parts /etc/cron.monthly</p>
+
+<p>我们稍微来分析一下这个文件：</p>
+
+<p>/* 设置基于什么shell来运行，我们这里是基于bash shell */</p>
+
+<p>SHELL=/bin/bash</p>
+
+<p>/* 指定目录中有次文件的命令时，不需要完整目录路经 */</p>
+
+<p>PATH=/sbin:/bin:/usr/sbin:/usr/bin</p>
+
+<p>/* 使用cron实际工作时，见通过邮件来同志root用户 */</p>
+
+<p>MAILTO=root</p>
+
+<p>/* 与/etc/crontab配置文件相关的主目录为根目录 */</p>
+
+<p>HOME=/</p>
+
+<p>/* 好了，这里是关键是，下面的是要指定什么时间运行什么目录下的任务，run-parts命令是运行指定目录下的每个脚本 */</p>
+
+<p># run-parts</p>
+
+<p>/* 这一句是在每天每小时过后一分钟运行/etc/cron.hourly目录中的每个脚本文件 */</p>
+
+<p>01 * * * * root run-parts /etc/cron.hourly</p>
+
+<p>/* 在每天凌晨4点2分运行/etc/cron.daily目录中的每个脚本文件 */</p>
+
+<p>02 4 * * * root run-parts /etc/cron.daily</p>
+
+<p>/* 在每个星期天凌晨4点22分运行/etc/cron.weekly目录中的每个脚本文件 */</p>
+
+<p>22 4 * * 0 root run-parts /etc/cron.weekly</p>
+
+<p>/* 在每个月的第一天凌晨4点42分运行/etc/cron.monthly目录中的每个脚本文件 */</p>
+
+<p>42 4 1 * * root run-parts /etc/cron.monthly</p>
+
+<p>大家看到里面的”*”一定觉得很奇怪，下面我们句稍微来了解一下cron的语法：</p>
+
+<p>上面脚本中的时间是从左到右的，分别列出了五个字段，我们看下面的表：</p>
+
+<p>————————————————</p>
+
+<p>字段 取值范围</p>
+
+<p>————————————————</p>
+
+<p>Minute 0 ~ 59</p>
+
+<p>Hour 0 ~ 23，其中0是午夜，20是晚上8点</p>
+
+<p>Day 1 ~ 31</p>
+
+<p>Month 1 ~ 12</p>
+
+<p>Day of week 0 ~ 7，其中0和7是表示星期天</p>
+
+<p>————————————————</p>
+
+<p>任何字段中的星号是通配符，例如，如果第一个字段包括星号，则特定若无其事在可能的每一分钟运行。如果要指定时间范围，比如上午8点到</p>
+
+<p>下午4点，则可以见第二个字段设置为8~16。如果要隔一天运行任务，则可以将第三个字段设置为*/2。可以看出，如果五个字段(minute、hour</p>
+
+<p>、day、month、day of week) 之后，cron中的每个字段就没什么神秘之处了。</p>
+
+<ol>
+  <li>用户自己的cron</li>
+</ol>
+
+<p>用户也可以计划用户自己的cron任务，比如他想要在半夜整理他的文件，然后发送邮件给自己，只要这个用户他没有在/etc/cron.deny表中，</p>
+
+<p>就可以使用crontab -e命令来启动自己的cron文件。</p>
+
+<ol>
+  <li>对cron的访问控制</li>
+</ol>
+
+<p>默认情况下，所有用户都能访问cron工具，要对cron进行访问控制，则可以生成/etc/cron.allow与/etc/cron.deny文件。</p>
+
+<p>(1)这两个文件都不存在时，每个用户都可以访问cron工具]</p>
+
+<p>(2)存在/etc/cron.allow文件时，则只有cron.allow文件中允许的用户才能访问cron工具，如果也有/etc/cron.deny文件，则忽略cron.deny文</p>
+
+<p>件</p>
+
+<p>二、 使用at命令定期运行程序</p>
+
+<ol>
+  <li>使用cron运行任务</li>
+</ol>
+
+<p>cron任务的缺点是计划要经常运行，假如我们只是想要让特定任务运行一次呢？那么，这时候就要用到at监控程序了。</p>
+
+<p>设置at命令很简单，指示定运行的时间，那么就会在哪个时候运行。at类似打印进程，会把任务放到/var/spool/at目录中，到指定时间运行它</p>
+
+<p>。at命令相当于另一个shell，运行at time命令时，它发送一个个命令，可以输入任意命令或者程序。at now + time命令可以在指示任务。</p>
+
+<p>假设处理一个大型数据库，要在别人不用系统时去处理数据，比如凌晨2点5分。那么我们就应该先建立/home/mj/airplane脚本管理数据库，计</p>
+
+<p>划处理/home/mj/air-safe文件中的结果。正常方式是这样启动下列命令:</p>
+
+<p># at 2:05 tomorrow</p>
+
+<p>at&gt; /home/mj/airplane &gt; /home/mj/air-safe</p>
+
+<p>at&gt; Ctrl+D</p>
+
+<p>AT Time中的时间表示方法</p>
+
+<p>———————————————————————–</p>
+
+<p>时间 例子 说明</p>
+
+<p>———————————————————————–</p>
+
+<p>Minute at now + 5 minutes 任务在5分钟后运行</p>
+
+<p>Hour at now + 1 hour 任务在1小时后运行</p>
+
+<p>Days at now + 3 days 任务在3天后运行</p>
+
+<p>Weeks at now + 2 weeks 任务在两周后运行</p>
+
+<p>Fixed at midnight 任务在午夜运行</p>
+
+<p>Fixed at 10:30pm 任务在晚上10点3</p>
+
+  </div><a class="u-url" href="/2008-12-%E4%BD%BF%E7%94%A8crond-%E5%9C%A8linux%E4%B8%AD%E5%AE%9A%E6%97%B6%E6%89%A7%E8%A1%8C%E4%BB%BB%E5%8A%A1/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Linux in EnterPrise</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Linux in EnterPrise</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/linuxdict"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">linuxdict</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Focus in Linux, LAMP, Mail, Cluster Arch(ENterprise Linux Apache MySQL Php)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
