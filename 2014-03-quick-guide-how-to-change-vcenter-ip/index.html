@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Quick guide: How to change Vcenter IP | Linux in EnterPrise</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Quick guide: How to change Vcenter IP" />
+<meta name="author" content="edyliu" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Simple way, update before you move it away. Admininstrate -&gt; vCenter Server setting -&gt; Advanced Settings." />
+<meta property="og:description" content="Simple way, update before you move it away. Admininstrate -&gt; vCenter Server setting -&gt; Advanced Settings." />
+<link rel="canonical" href="http://192.168.1.77:4000/2014-03-quick-guide-how-to-change-vcenter-ip/" />
+<meta property="og:url" content="http://192.168.1.77:4000/2014-03-quick-guide-how-to-change-vcenter-ip/" />
+<meta property="og:site_name" content="Linux in EnterPrise" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2014-03-26T14:55:12-04:00" />
+<script type="application/ld+json">
+{"description":"Simple way, update before you move it away. Admininstrate -&gt; vCenter Server setting -&gt; Advanced Settings.","author":{"@type":"Person","name":"edyliu"},"@type":"BlogPosting","url":"http://192.168.1.77:4000/2014-03-quick-guide-how-to-change-vcenter-ip/","headline":"Quick guide: How to change Vcenter IP","dateModified":"2014-03-26T14:55:12-04:00","datePublished":"2014-03-26T14:55:12-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://192.168.1.77:4000/2014-03-quick-guide-how-to-change-vcenter-ip/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://192.168.1.77:4000/feed.xml" title="Linux in EnterPrise" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Linux in EnterPrise</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about.html">关于(About Me)</a><a class="page-link" href="/project.html">项目(Project)</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Quick guide: How to change Vcenter IP</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2014-03-26T14:55:12-04:00" itemprop="datePublished">Mar 26, 2014
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">edyliu</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Simple way, update before you move it away.</p>
+
+<p>Admininstrate -&gt; vCenter Server setting -&gt; Advanced Settings.</p>
+
+<p>I installed Vcenter on a VM. so I did clone. but the IP need to be updated.</p>
+
+<p>because the SSO still try to find the old IP. updated many configuration files, still stucks.</p>
+
+<!--more-->
+
+<p>014-03-27T17:37:45.350+08:00 [05060 error ‘HttpConnectionPool-000001’] [ConnectComplete] Connect failed to &lt;cs p:0000000009637d70, TCP:10.60.254.248:7444&gt;; cnx: (null), error: class Vmacore::Ssl::SSLVerifyException(SSL Exception: Verification parameters:</p>
+
+<p>–&gt; PeerThumbprint: 4B:2A:96:C3:45:C8:A9:30:AD:2B:46:AD:50:60:29:40:F3:B6:77:94</p>
+
+<p>–&gt; ExpectedThumbprint:</p>
+
+<p>–&gt; ExpectedPeerName: 10.x.x.x</p>
+
+<p>–&gt; The remote host certificate has these problems:</p>
+
+<p>–&gt;</p>
+
+<p>–&gt; * A certificate in the host’s chain is based on an untrusted root.</p>
+
+<p>–&gt;</p>
+
+<p>–&gt; * Host name does not match the subject name(s) in certificate.)</p>
+
+<p>2014-03-27T17:37:45.351+08:00 [02320 error ‘[SSO][SsoFactory_CreateFacade]’] Unable to create SSO facade: SSL Exception: Verification parameters:</p>
+
+<p>–&gt; PeerThumbprint: 4B:2A:96:C3:45:C8:A9:30:AD:2B:46:AD:50:60:29:40:F3:B6:77:94</p>
+
+<p>–&gt; ExpectedThumbprint:</p>
+
+<p>–&gt; ExpectedPeerName: 10.x.x.x</p>
+
+<p>–&gt; The remote host certificate has these problems:</p>
+
+<p>–&gt;</p>
+
+<p>–&gt; * A certificate in the host’s chain is based on an untrusted root.</p>
+
+<p>–&gt;</p>
+
+<p>–&gt; * Host name does not match the subject name(s) in certificate..</p>
+
+<p>2014-03-27T17:37:45.352+08:00 [02320 error ‘vpxdvpxdMain’] [Vpxd::ServerApp::Init] Init failed: Vpx::Common::Sso::SsoFactory_CreateFacade(sslContext, ssoFacadeConstPtr)</p>
+
+<p>–&gt; Backtrace:</p>
+
+<p>Ref: http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&amp;cmd=displayKC&amp;externalId=2058080</p>
+
+<p>I followed guide from VM site. still can’t fixed my problem. so I created an dummy network interface, and with old IP. then all looks fine. you can go vcenter to change IP now.</p>
+
+<p>Files related with IP:</p>
+
+<p>C:\Program Files\VMware\Infrastructure\VirtualCenter Server\ssoregtool\vcsso.properties</p>
+
+<p>C:\Program Files\VMware\Infrastructure\VirtualCenter Server\endpoints\qs-endpoint.xml</p>
+
+<p>C:\Program Files\VMware\Infrastructure\Orchestrator\vco.properties</p>
+
+<p>C:\ProgramData\VMware\VMware VirtualCenter\vpxd.cfg</p>
+
+<p>Useful logs:</p>
+
+<p>C:\ProgramData\VMware\VMware VirtualCenter\Logs</p>
+
+  </div><a class="u-url" href="/2014-03-quick-guide-how-to-change-vcenter-ip/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Linux in EnterPrise</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Linux in EnterPrise</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/linuxdict"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">linuxdict</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Focus in Linux, LAMP, Mail, Cluster Arch(ENterprise Linux Apache MySQL Php)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Quick Ref for XSCF console | Linux in EnterPrise</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Quick Ref for XSCF console" />
+<meta name="author" content="edyliu" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Final tips: man intro ; then man" />
+<meta property="og:description" content="Final tips: man intro ; then man" />
+<link rel="canonical" href="http://192.168.1.77:4000/2012-10-quick-ref-for-xscf-console/" />
+<meta property="og:url" content="http://192.168.1.77:4000/2012-10-quick-ref-for-xscf-console/" />
+<meta property="og:site_name" content="Linux in EnterPrise" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2012-10-25T14:34:11-04:00" />
+<script type="application/ld+json">
+{"description":"Final tips: man intro ; then man","author":{"@type":"Person","name":"edyliu"},"@type":"BlogPosting","url":"http://192.168.1.77:4000/2012-10-quick-ref-for-xscf-console/","headline":"Quick Ref for XSCF console","dateModified":"2012-10-25T14:34:11-04:00","datePublished":"2012-10-25T14:34:11-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://192.168.1.77:4000/2012-10-quick-ref-for-xscf-console/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://192.168.1.77:4000/feed.xml" title="Linux in EnterPrise" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Linux in EnterPrise</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about.html">关于(About Me)</a><a class="page-link" href="/project.html">项目(Project)</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Quick Ref for XSCF console</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2012-10-25T14:34:11-04:00" itemprop="datePublished">Oct 25, 2012
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">edyliu</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Final tips: man intro ; then man <command /></p>
+
+<p>List all domain</p>
+
+<p>XSCF&gt; showdomainstatus -a</p>
+
+<p>Connect to a domain</p>
+
+<p>XSCF&gt; console -d domainhere</p>
+
+<p>Forcely to connect a domain</p>
+
+<p>XSCF&gt; console -d domainhere -f</p>
+
+<p>View an connected console</p>
+
+<p>XSCF&gt; console -d domainhere -r</p>
+
+<!--more-->
+
+<p>To displays the domain information specified for a system board.</p>
+
+<p>XSCF&gt; showdevices</p>
+
+<p>To displays the temperature, humidity, voltage, and fan rotation speed.</p>
+
+<p>XSCF&gt; showenvironment</p>
+
+<p>To lists degraded components.</p>
+
+<p>XSCF&gt; showstatus</p>
+
+<p>To displays users who login to the XSCF.</p>
+
+<p>XSCF&gt; who</p>
+
+<p>To reset domain there are 3 modes for reset command</p>
+
+<p>por: Domain system reset</p>
+
+<p>request: Domain panic instruction</p>
+
+<p>xir: Domain CPU reset</p>
+
+<p>XSCF&gt; reset -d domainhere por</p>
+
+<p>To power on/off all domain or sepcified domain</p>
+
+<p>XSCF&gt; poweron</p>
+
+<p>XSCF&gt; poweroff</p>
+
+<p>Change the XSCF IP</p>
+
+<p>XSCF&gt; setnetwork xscf#0-lan#0 -m netmask your_IP</p>
+
+<p>Remove the Gateway</p>
+
+<p>XSCF&gt; setroute -c del -n 0.0.0.0 -g GW xscf#0-lan#0</p>
+
+<p>Add Gateway for XSCF</p>
+
+<p>XSCF&gt; setroute -c add -n 0.0.0.0 -g GW xscf#0-lan#0</p>
+
+<p>XSCF&gt; applynetwork</p>
+
+<p>XSCF&gt; rebootxscf</p>
+
+<p>Display network information</p>
+
+<p>XSCF&gt; shownetwork</p>
+
+<p>Display route information</p>
+
+<p>XSCF&gt; showroute</p>
+
+<p>To logout of XSCF&gt; type exit</p>
+
+<p>To return to XSCF from a domain terminal type #.</p>
+
+  </div><a class="u-url" href="/2012-10-quick-ref-for-xscf-console/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Linux in EnterPrise</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Linux in EnterPrise</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/linuxdict"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">linuxdict</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Focus in Linux, LAMP, Mail, Cluster Arch(ENterprise Linux Apache MySQL Php)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

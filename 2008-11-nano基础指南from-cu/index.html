@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>Nano基础指南(from CU) | Linux in EnterPrise</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="Nano基础指南(from CU)" />
+<meta name="author" content="admin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Nano基础 目的 这是篇nano简明使用指南，帮助你快速了解nano的基本用法。如想获取更多的帮助信息，请参阅： http://www.nano-editor.org 打开文件与新建文件 使用nano打开或新建文件，只需键入： 代码 1.1: 打开或新建文件" />
+<meta property="og:description" content="Nano基础 目的 这是篇nano简明使用指南，帮助你快速了解nano的基本用法。如想获取更多的帮助信息，请参阅： http://www.nano-editor.org 打开文件与新建文件 使用nano打开或新建文件，只需键入： 代码 1.1: 打开或新建文件" />
+<link rel="canonical" href="http://192.168.1.77:4000/2008-11-nano%E5%9F%BA%E7%A1%80%E6%8C%87%E5%8D%97from-cu/" />
+<meta property="og:url" content="http://192.168.1.77:4000/2008-11-nano%E5%9F%BA%E7%A1%80%E6%8C%87%E5%8D%97from-cu/" />
+<meta property="og:site_name" content="Linux in EnterPrise" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2008-11-12T02:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Nano基础 目的 这是篇nano简明使用指南，帮助你快速了解nano的基本用法。如想获取更多的帮助信息，请参阅： http://www.nano-editor.org 打开文件与新建文件 使用nano打开或新建文件，只需键入： 代码 1.1: 打开或新建文件","author":{"@type":"Person","name":"admin"},"@type":"BlogPosting","url":"http://192.168.1.77:4000/2008-11-nano%E5%9F%BA%E7%A1%80%E6%8C%87%E5%8D%97from-cu/","headline":"Nano基础指南(from CU)","dateModified":"2008-11-12T02:00:00-05:00","datePublished":"2008-11-12T02:00:00-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://192.168.1.77:4000/2008-11-nano%E5%9F%BA%E7%A1%80%E6%8C%87%E5%8D%97from-cu/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://192.168.1.77:4000/feed.xml" title="Linux in EnterPrise" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Linux in EnterPrise</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about.html">关于(About Me)</a><a class="page-link" href="/project.html">项目(Project)</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Nano基础指南(from CU)</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2008-11-12T02:00:00-05:00" itemprop="datePublished">Nov 12, 2008
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">admin</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ol>
+  <li>Nano基础</li>
+</ol>
+
+<p>目的</p>
+
+<p>这是篇nano简明使用指南，帮助你快速了解nano的基本用法。如想获取更多的帮助信息，请参阅：</p>
+
+<p>http://www.nano-editor.org</p>
+
+<p>打开文件与新建文件</p>
+
+<p>使用nano打开或新建文件，只需键入：</p>
+
+<p>代码 1.1: 打开或新建文件<!--more--></p>
+
+<p># nano 文件名</p>
+
+<p>Nano是一种单模式编辑器，你可以直接输入文字。如果你要编辑一个像/etc/fstab一样的配置文件，请使用-w参数，例如：</p>
+
+<p>代码 1.2: 禁用自动换行</p>
+
+<p># nano -w /etc/fstab</p>
+
+<p>警告: 这非常重要。如果在编辑配置文件时忘了加-w参数，可能会导致你的系统无法起动或产生别的异常。</p>
+
+<p>保存和退出</p>
+
+<p>如果你要保存所做的修改，按下Ctrl+O。想要退出，按下Ctrl+X。如果你退出前没有保存所做的修改，它会提示你是否要保存。如果不要，请按N，反之，则按Y。然后它会让你确认要保存的文件名，确认或修改后按Enter即可。</p>
+
+<p>如果你没有修改好而不小心按了保存键，您可以在请求确认文件名时按Ctrl+C来取消。</p>
+
+<p>剪切和粘贴</p>
+
+<p>要剪切一整行，请用Ctrl+K（按住Ctrl不放，再按下K键）。光标所在的行便消失了。要粘贴它，只需把光标移动到您所要粘贴的位置，然后按 Ctrl+U即可。要移动多行，只需多按几次Ctrl+K把需要移动内容都剪切下来，然后按一次Ctrl+U就可以把刚剪切的内容全部粘贴上来。</p>
+
+<p>如果你想使用更精确的剪切控制，则需要给文本做标记。移动光标到需要剪切文本的开头，按下Ctrl+6（或者Alt+A）。然后移动光标到待剪切文本的末 尾：被做了标记的文本便会反白。要撤消文本标记，只需再按一次Ctrl+6。用Ctrl+K来剪切被标记的文本，用Ctrl+U来粘贴。</p>
+
+<p>搜索特定文字</p>
+
+<p>当你想搜索某特定文字时，只要想成”WhereIs”而不是”Search”，事情就简单了。只要按下Ctrl+W，键入你要搜索的字符串，再按Enter就可以了。想再次搜索相同的字符串，可以直接按Alt+W。</p>
+
+<p>注意: 在nano帮助文档里，Ctrl-键被表示为一个脱字符（^），因此Ctrl+W被写成了^W，等等。Alt-键被表示为一个M（从”Meta”而来），因此Alt+W被写成了M-W。</p>
+
+<p>更多选项</p>
+
+<p>如果你有兴趣调整nano设置，一定去看看/etc/nanorc。</p>
+
+<p>要了解更多的nano信息，请参阅：</p>
+
+<p>http://www.nano-editor.org</p>
+
+<p>from chinaunix.net</p>
+
+  </div><a class="u-url" href="/2008-11-nano%E5%9F%BA%E7%A1%80%E6%8C%87%E5%8D%97from-cu/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Linux in EnterPrise</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Linux in EnterPrise</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/linuxdict"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">linuxdict</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Focus in Linux, LAMP, Mail, Cluster Arch(ENterprise Linux Apache MySQL Php)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

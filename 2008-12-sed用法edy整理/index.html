@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>sed用法(Edy整理) | Linux in EnterPrise</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="sed用法(Edy整理)" />
+<meta name="author" content="admin" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="sed 示例" />
+<meta property="og:description" content="sed 示例" />
+<link rel="canonical" href="http://192.168.1.77:4000/2008-12-sed%E7%94%A8%E6%B3%95edy%E6%95%B4%E7%90%86/" />
+<meta property="og:url" content="http://192.168.1.77:4000/2008-12-sed%E7%94%A8%E6%B3%95edy%E6%95%B4%E7%90%86/" />
+<meta property="og:site_name" content="Linux in EnterPrise" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2008-12-04T10:29:30-05:00" />
+<script type="application/ld+json">
+{"description":"sed 示例","author":{"@type":"Person","name":"admin"},"@type":"BlogPosting","url":"http://192.168.1.77:4000/2008-12-sed%E7%94%A8%E6%B3%95edy%E6%95%B4%E7%90%86/","headline":"sed用法(Edy整理)","dateModified":"2008-12-04T10:29:30-05:00","datePublished":"2008-12-04T10:29:30-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://192.168.1.77:4000/2008-12-sed%E7%94%A8%E6%B3%95edy%E6%95%B4%E7%90%86/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://192.168.1.77:4000/feed.xml" title="Linux in EnterPrise" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Linux in EnterPrise</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about.html">关于(About Me)</a><a class="page-link" href="/project.html">项目(Project)</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">sed用法(Edy整理)</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2008-12-04T10:29:30-05:00" itemprop="datePublished">Dec 4, 2008
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">admin</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p><a name="6"><span class="atitle">sed 示例</span></a></p>
+
+<p>sed 通过对输入数据执行任意数量用户指定的编辑操作（“命令”）来工作。<strong>sed 是基于行的</strong>，因此按顺序对每一行执行命令。然后，<strong>sed 将其结果写入标准输出 (stdout)，它不修改任何输入文件。</strong><!--more--></p>
+
+<p>让我们看一些示例。头几个会有些奇怪，因为我要用它们演示 sed 如何工作，而不是执行任何有用的任务。然而，如果您是 sed 新手，那么理解它们是十分重要的。下面是第一个示例：</p>
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+  <tr>
+    <td class="code-outline">
+      <pre class="displaycode">$ sed -e 'd' /etc/services</pre>
+    </td>
+  </tr>
+</table>
+
+<p>如果输入该命令，将得不到任何输出。那么，发生 了什么？在该例中，用一个编辑命令 ‘d’ 调用 sed。sed 打开 /etc/services 文件，将一行读入其模式缓冲区，执行编辑命令（“删除行”），然后打印模式缓冲区（缓冲区已为空）。然后，它对后面的每一行重复这些步骤。这不会产生输 出，因为 “d” 命令除去了模式缓冲区中的每一行！</p>
+
+<p>在该例中，还有几件事要注意。</p>
+
+<p>首先，根本没有修改 /etc/services。这还是因为 sed 只读取在命令行指定的文件，将其用作输入 — 它不试图修改该文件。</p>
+
+<p>第二件要注意的事是 sed 是面向行的。’d’ 命令不是简单地告诉 sed 一下子删除所有输入数据。相反，sed 逐行将 /etc/services 的每一行读入其称为模式缓冲区的内部缓冲区。一旦将一行读入模式缓冲区，它就执行 ‘d’ 命令，然后打印模式缓冲区的内容。如果不使用地址，命令将应用到 <em>所有行</em>。</p>
+
+<p>第三件要注意的事是括起 ‘d’ 命令的单引号的用法。养成使用单引号来括起 sed 命令的习惯是个好注意，这样可以禁用 shell 扩展。</p>
+
+<p><strong><a name="8"><span class="atitle">地址范围</span></a></strong></p>
+
+<p>现在，让我们看一下如何指定地址 <em>范围</em>。在本例中，sed 将删除输出的第 1 到 10 行：</p>
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+  <tr>
+    <td class="code-outline">
+      <pre class="displaycode">$ sed -e '1,10d' /etc/services | more</pre>
+    </td>
+  </tr>
+</table>
+
+<p>当用逗号将两个地址分开时，sed 将把后面的命令应用到从第一个地址开始、到第二个地址结束的范围。在本例中，将 ‘d’ 命令应用到第 1 到 10 行（包括这两行）。所有其它行都被忽略。</p>
+
+<p><strong><a name="9"><span class="atitle">带规则表达式的地址</span></a></strong></p>
+
+<p>现在演示一个更有用的示例。假设要查看 /etc/services 文件的内容，但是对查看其中包括的注释部分不感兴趣。如您所知，可以通过以 ‘#’ 字符开头的行在 /etc/services 文件中放置注释。为了避免注释，我们希望 sed 删除以 ‘#’ 开始的行。以下是具体做法：</p>
+
+<table border="0" cellspacing="0" cellpadding="0" width="100%">
+  <tr>
+    <td class="code-outline">
+      <pre class="displaycode">$ sed -e '/^#/d' /etc/services | more</pre>
+    </td>
+  </tr>
+</table>
+
+<p>感受规则表达式的最好方法可能是看几个示例。所有这些示例都将被 sed 作为合法地址接受，这些地址出现在命令的左边。下面是几个示例：</p>
+
+<p>规则 表达式 描述</p>
+
+<p>/./ 将与包含至少一个字符的任何行匹配</p>
+
+<p>/../ 将与包含至少两个字符的任何行匹配</p>
+
+<p>/^#/ 将与以 ‘#’ 开始的任何行匹配</p>
+
+<p>/^$/ 将与所有空行匹配</p>
+
+<p>/}^/ 将与以 ‘}’（无空格）结束的任何行匹配</p>
+
+<p>/} *^/ 将与以 ‘}’ 后面跟有 零或多个空格结束的任何行匹配</p>
+
+<p>/[abc]/ 将与包含小写 ‘a’、’b’ 或 ‘c’ 的任何行匹配</p>
+
+<p>/^[abc]/ 将与以 ‘a’、’b’ 或 ‘c’ 开始的任何行匹配</p>
+
+<p>替换！</p>
+
+<p>让我们看一下 sed 最有用的命令之一，替换命令。使用该命令，可以将特定字符串或匹配的规则表达式用另一个字符串替换。下面是该命令最基本用法的示例：</p>
+
+<p>$ sed -e ‘s/foo/bar/’ myfile.txt</p>
+
+<p>上面的命令将 myfile.txt 中每行第一次出现的 ‘foo’（如果有的话）用字符串 ‘bar’ 替换，然后将该文件内容输出到标准输出。请注意，我说的是 每行第一次出现，尽管这通常不是您想要的。在进行字符串替换时，通常想执行全局替换。也就是说，要替换每行中的 所有出现，如下所示：</p>
+
+<p>$ sed -e ‘s/foo/bar/g’ myfile.txt</p>
+
+<p>文本转换</p>
+
+<p>第一个实际脚本将 UNIX 风格的文本转换成 DOS/Windows 格式。您可能知道，基于 DOS/Windows 的文本文件在每一行末尾有一个 CR（回车）和 LF（换行），而 UNIX 文本只有一个换行。有时可能需要将某些 UNIX 文本移至 Windows 系统，该脚本将为您执行必需的格式转换。</p>
+
+<p>$ sed -e ‘s/$/\r/’ myunix.txt &gt; mydos.txt</p>
+
+<p>别犯糊涂</p>
+
+<p>如您所见，只要循序渐进地解决问题，使用 sed 转换数据就没有那么难。不要试图使用一个 sed 命令或一下子解决所有问题。相反，要朝着目标逐步进行，并不断改进 sed 脚本，直到其输出正如您希望那样为止。sed 有许多功能，希望您已非常熟悉其内部工作原理并继续努力以进一步掌握它！</p>
+
+<p>From IBM</p>
+
+<p>http://www.ibm.com/developerworks/cn/linux/shell/sed/sed-1/</p>
+
+<p>http://www.ibm.com/developerworks/cn/linux/shell/sed/sed-2/</p>
+
+<p>http://www.ibm.com/developerworks/cn/linux/shell/sed/sed-3/</p>
+
+  </div><a class="u-url" href="/2008-12-sed%E7%94%A8%E6%B3%95edy%E6%95%B4%E7%90%86/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Linux in EnterPrise</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Linux in EnterPrise</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/linuxdict"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">linuxdict</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Focus in Linux, LAMP, Mail, Cluster Arch(ENterprise Linux Apache MySQL Php)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

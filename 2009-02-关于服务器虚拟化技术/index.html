@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.5.0 -->
+<title>关于服务器虚拟化技术 | Linux in EnterPrise</title>
+<meta name="generator" content="Jekyll v3.8.3" />
+<meta property="og:title" content="关于服务器虚拟化技术" />
+<meta name="author" content="edyliu" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="晚上看了一些关于虚拟化的东西,下面是一个研究报告 http://www.enlamp.cn/book/vt_study.pdf http://en.wikipedia.org/wiki/Comparison_of_platform_virtual_machines" />
+<meta property="og:description" content="晚上看了一些关于虚拟化的东西,下面是一个研究报告 http://www.enlamp.cn/book/vt_study.pdf http://en.wikipedia.org/wiki/Comparison_of_platform_virtual_machines" />
+<link rel="canonical" href="http://192.168.1.77:4000/2009-02-%E5%85%B3%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF/" />
+<meta property="og:url" content="http://192.168.1.77:4000/2009-02-%E5%85%B3%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF/" />
+<meta property="og:site_name" content="Linux in EnterPrise" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2009-02-16T18:40:22-05:00" />
+<script type="application/ld+json">
+{"description":"晚上看了一些关于虚拟化的东西,下面是一个研究报告 http://www.enlamp.cn/book/vt_study.pdf http://en.wikipedia.org/wiki/Comparison_of_platform_virtual_machines","author":{"@type":"Person","name":"edyliu"},"@type":"BlogPosting","url":"http://192.168.1.77:4000/2009-02-%E5%85%B3%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF/","headline":"关于服务器虚拟化技术","dateModified":"2009-02-16T18:40:22-05:00","datePublished":"2009-02-16T18:40:22-05:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://192.168.1.77:4000/2009-02-%E5%85%B3%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF/"},"@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="http://192.168.1.77:4000/feed.xml" title="Linux in EnterPrise" /></head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Linux in EnterPrise</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about.html">关于(About Me)</a><a class="page-link" href="/project.html">项目(Project)</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">关于服务器虚拟化技术</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2009-02-16T18:40:22-05:00" itemprop="datePublished">Feb 16, 2009
+      </time>• <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">edyliu</span></span></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>晚上看了一些关于虚拟化的东西,下面是一个研究报告</p>
+
+<p>http://www.enlamp.cn/book/vt_study.pdf</p>
+
+<p>http://en.wikipedia.org/wiki/Comparison_of_platform_virtual_machines</p>
+
+<p>提到了Linux Vserver，以前记得也看过。但是没有做过实验。</p>
+
+<p>今天又看了一下它官方网站。</p>
+
+<p>http://linux-vserver.org</p>
+
+<p>装了一下，很顺利。因为在我这台服务上装的，没有重启。呵呵</p>
+
+<p>http://linux-vserver.org/Installation_on_CentOS</p>
+
+<p>装完了，添加了一个新的内核。</p>
+
+<p>title CentOS (2.6.22.19-vs2.3.0.34.1)</p>
+
+<p>root (hd0,6)</p>
+
+<p>kernel /boot/vmlinuz-2.6.22.19-vs2.3.0.34.1 ro root=LABEL=/</p>
+
+<p>initrd /boot/initrd-2.6.22.19-vs2.3.0.34.1.img</p>
+
+<p>貌似它的GuestOS安装起来和Openvz/Proxmox不太一样，有空实验一下。</p>
+
+  </div><a class="u-url" href="/2009-02-%E5%85%B3%E4%BA%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%99%9A%E6%8B%9F%E5%8C%96%E6%8A%80%E6%9C%AF/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Linux in EnterPrise</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Linux in EnterPrise</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/linuxdict"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">linuxdict</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Focus in Linux, LAMP, Mail, Cluster Arch(ENterprise Linux Apache MySQL Php)</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
