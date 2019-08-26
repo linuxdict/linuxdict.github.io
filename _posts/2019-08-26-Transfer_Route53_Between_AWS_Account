@@ -1,0 +1,8 @@
+# Download the cli53 tool
+https://github.com/barnybug/cli53/releases/latest
+export AWS_PROFILE=src_aws_account
+cli53 export youdomain.org > youdomain.org.dump.poc
+# Remove the NS & SOA record
+vi youdomain.org.dump.poc
+export AWS_PROFILE=tgt_aws_account
+cli53 import --file youdomain.org.dump.poc  your_ZONE_ID
