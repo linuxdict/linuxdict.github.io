@@ -46,6 +46,26 @@ logvol swap --name=swap --vgname=sys --grow --size=2048 --maxsize=4096
 @core
 kexec-tools
 
+# remove wireless firmware 
+-iwl6000-firmware
+-iwl135-firmware
+-iwl105-firmware
+-iwl1000-firmware
+-iwl2000-firmware
+-iwl5150-firmware
+-iwl3945-firmware
+-iwl3160-firmware
+-iwl7265-firmware
+-iwl100-firmware
+-iwl5000-firmware
+-iwl4965-firmware
+-iwl6050-firmware
+-iwl6000g2a-firmware
+-iwl6000g2b-firmware
+-iwl7260-firmware
+-iwl2030-firmware
+-ivtv-firmware
+
 %end
 
 %addon com_redhat_kdump --enable --reserve-mb='auto'
